@@ -1,1 +1,1 @@
-Esto no sirve para nada
+SHOW FULL TABLES from MOOVETT;
