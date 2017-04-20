@@ -1,29 +1,36 @@
 <?php
-    echo "Iniciando creacción de vistas...";//Mostramos mensaje para saber cuando empieza
+    echo "Iniciando creación de vistas...";//Mostramos mensaje para saber cuando empieza
+
 
 
 function conectarBD(){//Creamos una funcion para conectarnos a la BD
     $bd = new mysqli("localhost", "root", "iu", "MOOVETT");
     if (mysqli_connect_errno()){
-        echo "Fallo al conectar MySQL: " . $this->mysqli->connect_error();
+        echo "Fallo al conectar MySQL: " . $mysqli->connect_error();
     }
     return $bd;
 }
+
 function listarTablas() //Creamos una funcion para que nos devuelva todas las tablas de la BD
 {
-    $this->mysqli = conectarBD();
+    $mysqli2 = conectarBD();
     $sql = 'show full tables from MOOVETT';
-    if (!($resultado = $this->mysqli->query($sql))) {
+    if (!($resultado = $mysqli2->query($sql))) {
         return 'Error en la consulta sobre la base de datos';
     } else {
-        $result = $resultado->fetch_array(); //Convertimos el resultado de la consulta a un array asociativo
-        return $result;
+        $tables = array();
+        while($tabla = $resultado->fetch_array(MYSQLI_ASSOC)){
+            array_push($tables,$tabla['Tables_in_MOOVETT']);
+        }
+        return $tables;
     }
+
 }
 
 $arrayTablas = listarTablas();//Llamamos a la funcion listarTablas() para que nos devuelva todas las tablas. Le llamamos $arrayTablas
 foreach($arrayTablas as $tabla){//Recorremos el array con las vistas
     crearVistas($tabla);//Llamamos a la funcion crear vistas
+
     crearADD($tabla);
     crearSEARCH($tabla);
     crearEDIT($tabla);
@@ -34,47 +41,137 @@ foreach($arrayTablas as $tabla){//Recorremos el array con las vistas
 }
 
 function crearVistas($tabla){
-    fopen("../Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
-    fopen("../Views/" . strtoupper($tabla) . "SEARCH_View.php","w+");
-    fopen("../Views/" . strtoupper($tabla) . "EDIT_View.php","w+");
-    fopen("../Views/" . strtoupper($tabla) . "DELETE_View.php","w+");
-    fopen("../Views/" . strtoupper($tabla) . "SHOWALL_View.php","w+");
-    fopen("../Views/" . strtoupper($tabla) . "SHOWCURRENT_View.php","w+");
+
+    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
+    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SEARCH_View.php","w+");
+    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_EDIT_View.php","w+");
+    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_DELETE_View.php","w+");
+    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWALL_View.php","w+");
+    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWCURRENT_View.php","w+");
+
 
 }
 
 function crearADD($tabla){
-    $file = fopen("../Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
-    fwrite($file, "class". strtoupper($tabla) . "_ADD{" . PHP_EOL);
+    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
+    fwrite($file, "<?php" . PHP_EOL);
+    fwrite($file, "class ". strtoupper($tabla) . "_ADD {" . PHP_EOL);
     fwrite($file, 'function __construct(){' . PHP_EOL);
     fwrite($file, '$this->render();' . PHP_EOL);
     fwrite($file, '}' . PHP_EOL);
-    fwrite($file, 'function render(){' . PHP_EOL)
-    fwrite($file, "require_once(\'../header.php\'); " . PHP_EOL);
+    fwrite($file, 'function render(){' . PHP_EOL);
+    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
     fwrite($file, "?>" . PHP_EOL);
     fwrite($file, "<title>Añadir></title>" . PHP_EOL);
     fwrite($file, "<body>" . PHP_EOL);
+    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
+    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
+    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
+    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
+    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
+
 }
 
 function crearSEARCH($tabla){
-    fopen("../Views/" . strtoupper($tabla) . "SEARCH_View.php","w+");
+
+    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SEARCH_View.php","w+");
+    fwrite($file, "<?php" . PHP_EOL);
+    fwrite($file, "class ". strtoupper($tabla) . "_SEARCH {" . PHP_EOL);
+    fwrite($file, 'function __construct(){' . PHP_EOL);
+    fwrite($file, '$this->render();' . PHP_EOL);
+    fwrite($file, '}' . PHP_EOL);
+    fwrite($file, 'function render(){' . PHP_EOL);
+    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
+    fwrite($file, "?>" . PHP_EOL);
+    fwrite($file, "<title>Buscar></title>" . PHP_EOL);
+    fwrite($file, "<body>" . PHP_EOL);
+    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
+    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
+    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
+    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
+    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
+
 }
 
 
 function crearEDIT($tabla){
-    fopen("../Views/" . strtoupper($tabla) . "EDIT_View.php","w+");
+    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_EDIT_View.php","w+");
+    fwrite($file, "<?php" . PHP_EOL);
+    fwrite($file, "class ". strtoupper($tabla) . "_EDIT {" . PHP_EOL);
+    fwrite($file, 'function __construct(){' . PHP_EOL);
+    fwrite($file, '$this->render();' . PHP_EOL);
+    fwrite($file, '}' . PHP_EOL);
+    fwrite($file, 'function render(){' . PHP_EOL);
+    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
+    fwrite($file, "?>" . PHP_EOL);
+    fwrite($file, "<title>Modificar></title>" . PHP_EOL);
+    fwrite($file, "<body>" . PHP_EOL);
+    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
+    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
+    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
+    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
+    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
+
 }
 
 function crearDELETE($tabla){
-    fopen("../Views/" . strtoupper($tabla) . "DELETE_View.php","w+");
+    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_DELETE_View.php","w+");
+    fwrite($file, "<?php" . PHP_EOL);
+    fwrite($file, "class ". strtoupper($tabla) . "_DELETE {" . PHP_EOL);
+    fwrite($file, 'function __construct(){' . PHP_EOL);
+    fwrite($file, '$this->render();' . PHP_EOL);
+    fwrite($file, '}' . PHP_EOL);
+    fwrite($file, 'function render(){' . PHP_EOL);
+    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
+    fwrite($file, "?>" . PHP_EOL);
+    fwrite($file, "<title>Borrar></title>" . PHP_EOL);
+    fwrite($file, "<body>" . PHP_EOL);
+    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
+    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
+    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
+    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
+    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
+
 }
 
 function crearSHOWALL($tabla){
-    fopen("../Views/" . strtoupper($tabla) . "SHOWALL_View.php","w+");
+    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWALL_View.php","w+");
+    fwrite($file, "<?php" . PHP_EOL);
+    fwrite($file, "class ". strtoupper($tabla) . "_SHOWALL {" . PHP_EOL);
+    fwrite($file, 'function __construct(){' . PHP_EOL);
+    fwrite($file, '$this->render();' . PHP_EOL);
+    fwrite($file, '}' . PHP_EOL);
+    fwrite($file, 'function render(){' . PHP_EOL);
+    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
+    fwrite($file, "?>" . PHP_EOL);
+    fwrite($file, "<title>Listar></title>" . PHP_EOL);
+    fwrite($file, "<body>" . PHP_EOL);
+    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
+    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
+    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
+    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
+    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
+
 }
 
 function crearSHOWCURRENT($tabla){
-    fopen("../Views/" . strtoupper($tabla) . "SHOWCURRENT_View.php","w+");
+    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWCURRENT_View.php","w+");
+    fwrite($file, "<?php" . PHP_EOL);
+    fwrite($file, "class ". strtoupper($tabla) . "_SHOWCURRENT{" . PHP_EOL);
+    fwrite($file, 'function __construct(){' . PHP_EOL);
+    fwrite($file, '$this->render();' . PHP_EOL);
+    fwrite($file, '}' . PHP_EOL);
+    fwrite($file, 'function render(){' . PHP_EOL);
+    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
+    fwrite($file, "?>" . PHP_EOL);
+    fwrite($file, "<title>Consultar></title>" . PHP_EOL);
+    fwrite($file, "<body>" . PHP_EOL);
+    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
+    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
+    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
+    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
+    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
+
 
 }
 ?>
