@@ -70,7 +70,7 @@ function crearADD($tabla){
     fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
     fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
     fwrite($file, "include '../Functions/ACTIVIDAD2DefForm.php';" . PHP_EOL);
-    crearArrayFormulario($tabla);
+    crearArrayFormulario($tabla);//Creamos el formulario a partir de la BD
 }
 
 function crearSEARCH($tabla){
@@ -177,6 +177,30 @@ function crearSHOWCURRENT($tabla){
 }
 
 function crearArrayFormulario($tabla){
-    fopen("/var/www/html/iujulio/Functions/" . strtoupper($tabla) . "_DefForm.php","w+");
+    $file = fopen("/var/www/html/iujulio/Functions/" . strtoupper($tabla) . "_DefForm.php","w+");
+    fwrite($file, "<?php" . PHP_EOL);
+    fwrite($file, '$Form = array(' . PHP_EOL);
+    //Ahora aqui supongo que habrá que obtener los atributos de la tabla de la base de datos y meterlos en el array
+    listarAtributos($tabla);
+
+
+
+}
+
+
+function listarAtributos($tabla){
+    $mysqli2 = conectarBD();
+    $sql = 'SELECT * FROM ' . $tabla . ';';
+
+    if (!($resultado = $mysqli2->query($sql))) {
+        return 'Error en la consulta sobre la base de datos';
+    } else {
+        $atributos = array();
+        while($atributo = $resultado->fetch_array(MYSQLI_ASSOC)){
+
+            array_push($atributos,$atributo);
+        }
+        return $atributos;
+    }
 }
 ?>
