@@ -40,31 +40,41 @@ function crearVistas($tabla){
     fopen("../Views/" . strtoupper($tabla) . "DELETE_View.php","w+");
     fopen("../Views/" . strtoupper($tabla) . "SHOWALL_View.php","w+");
     fopen("../Views/" . strtoupper($tabla) . "SHOWCURRENT_View.php","w+");
+
 }
 
 function crearADD($tabla){
-
+    $file = fopen("../Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
+    fwrite($file, "class". strtoupper($tabla) . "_ADD{" . PHP_EOL);
+    fwrite($file, 'function __construct(){' . PHP_EOL);
+    fwrite($file, '$this->render();' . PHP_EOL);
+    fwrite($file, '}' . PHP_EOL);
+    fwrite($file, 'function render(){' . PHP_EOL)
+    fwrite($file, "require_once(\'../header.php\'); " . PHP_EOL);
+    fwrite($file, "?>" . PHP_EOL);
+    fwrite($file, "<title>Añadir></title>" . PHP_EOL);
+    fwrite($file, "<body>" . PHP_EOL);
 }
 
 function crearSEARCH($tabla){
-
+    fopen("../Views/" . strtoupper($tabla) . "SEARCH_View.php","w+");
 }
 
 
 function crearEDIT($tabla){
-
+    fopen("../Views/" . strtoupper($tabla) . "EDIT_View.php","w+");
 }
 
 function crearDELETE($tabla){
-
+    fopen("../Views/" . strtoupper($tabla) . "DELETE_View.php","w+");
 }
 
 function crearSHOWALL($tabla){
-
+    fopen("../Views/" . strtoupper($tabla) . "SHOWALL_View.php","w+");
 }
 
 function crearSHOWCURRENT($tabla){
-
+    fopen("../Views/" . strtoupper($tabla) . "SHOWCURRENT_View.php","w+");
 
 }
 ?>
