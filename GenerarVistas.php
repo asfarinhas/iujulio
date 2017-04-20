@@ -30,7 +30,6 @@ function listarTablas() //Creamos una funcion para que nos devuelva todas las ta
 $arrayTablas = listarTablas();//Llamamos a la funcion listarTablas() para que nos devuelva todas las tablas. Le llamamos $arrayTablas
 foreach($arrayTablas as $tabla){//Recorremos el array con las vistas
     crearVistas($tabla);//Llamamos a la funcion crear vistas
-
     crearADD($tabla);
     crearSEARCH($tabla);
     crearEDIT($tabla);
@@ -39,6 +38,7 @@ foreach($arrayTablas as $tabla){//Recorremos el array con las vistas
     crearSHOWCURRENT($tabla);
 
 }
+echo "Vistas creadas";
 
 function crearVistas($tabla){
 
@@ -69,7 +69,8 @@ function crearADD($tabla){
     fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
     fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
     fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
-
+    fwrite($file, "include '../Functions/ACTIVIDAD2DefForm.php';" . PHP_EOL);
+    crearArrayFormulario($tabla);
 }
 
 function crearSEARCH($tabla){
@@ -173,5 +174,9 @@ function crearSHOWCURRENT($tabla){
     fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
 
 
+}
+
+function crearArrayFormulario($tabla){
+    fopen("/var/www/html/iujulio/Functions/" . strtoupper($tabla) . "_DefForm.php","w+");
 }
 ?>
