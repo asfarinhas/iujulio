@@ -42,7 +42,7 @@ echo "Vistas creadas";
 
 function crearVistas($tabla){
 
-    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
+
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SEARCH_View.php","w+");
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_EDIT_View.php","w+");
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_DELETE_View.php","w+");
@@ -50,145 +50,79 @@ function crearVistas($tabla){
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWCURRENT_View.php","w+");
 
 
+
 }
 
 function crearADD($tabla){
-    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
-    fwrite($file, "<?php" . PHP_EOL);
-    fwrite($file, "class ". strtoupper($tabla) . "_ADD {" . PHP_EOL);
-    fwrite($file, 'function __construct(){' . PHP_EOL);
-    fwrite($file, '$this->render();' . PHP_EOL);
-    fwrite($file, '}' . PHP_EOL);
-    fwrite($file, 'function render(){' . PHP_EOL);
-    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
-    fwrite($file, "?>" . PHP_EOL);
-    fwrite($file, "<title>Añadir></title>" . PHP_EOL);
-    fwrite($file, "<body>" . PHP_EOL);
-    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
-    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
-    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
-    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
-    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
-    fwrite($file, "include '../Functions/ACTIVIDAD2DefForm.php';" . PHP_EOL);
-    crearArrayFormulario($tabla);//Creamos el formulario a partir de la BD
-}
+    $file=fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
+    $str='<?php class'. strtoupper($tabla) . '_ADD { 
+          function __construct(){ 
+                $this->render();
+                }
+          function render(){ 
+    require_once(\'../header.php\'); 
+?>
+    
+    <title>Añadir></title>
+    <body>
+    <div class=\"row-fluid\">
+    <body>
+		<!-- Include del menú-->
+		<div class=\"row-fluid\">
+			<?php include_once(\'menu.php\'); ?>
 
-function crearSEARCH($tabla){
+			<div class=\"col-sm-10 text-left\">
+				<div class=\"section-fluid\">
+					<div class=\"container-fluid\">
+					<form class=\"form-horizontal\" role=\"form\" action=\"../controllers/TRABAJADOR_Controller.php?id=altaTrabajador\"
+					 method=\"POST\" enctype=\"multipart/form-data\" >';
 
-    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SEARCH_View.php","w+");
-    fwrite($file, "<?php" . PHP_EOL);
-    fwrite($file, "class ". strtoupper($tabla) . "_SEARCH {" . PHP_EOL);
-    fwrite($file, 'function __construct(){' . PHP_EOL);
-    fwrite($file, '$this->render();' . PHP_EOL);
-    fwrite($file, '}' . PHP_EOL);
-    fwrite($file, 'function render(){' . PHP_EOL);
-    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
-    fwrite($file, "?>" . PHP_EOL);
-    fwrite($file, "<title>Buscar></title>" . PHP_EOL);
-    fwrite($file, "<body>" . PHP_EOL);
-    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
-    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
-    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
-    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
-    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
+    fwrite($file,$str);
 
 }
 
 
-function crearEDIT($tabla){
-    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_EDIT_View.php","w+");
-    fwrite($file, "<?php" . PHP_EOL);
-    fwrite($file, "class ". strtoupper($tabla) . "_EDIT {" . PHP_EOL);
-    fwrite($file, 'function __construct(){' . PHP_EOL);
-    fwrite($file, '$this->render();' . PHP_EOL);
-    fwrite($file, '}' . PHP_EOL);
-    fwrite($file, 'function render(){' . PHP_EOL);
-    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
-    fwrite($file, "?>" . PHP_EOL);
-    fwrite($file, "<title>Modificar></title>" . PHP_EOL);
-    fwrite($file, "<body>" . PHP_EOL);
-    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
-    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
-    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
-    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
-    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
-
-}
-
-function crearDELETE($tabla){
-    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_DELETE_View.php","w+");
-    fwrite($file, "<?php" . PHP_EOL);
-    fwrite($file, "class ". strtoupper($tabla) . "_DELETE {" . PHP_EOL);
-    fwrite($file, 'function __construct(){' . PHP_EOL);
-    fwrite($file, '$this->render();' . PHP_EOL);
-    fwrite($file, '}' . PHP_EOL);
-    fwrite($file, 'function render(){' . PHP_EOL);
-    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
-    fwrite($file, "?>" . PHP_EOL);
-    fwrite($file, "<title>Borrar></title>" . PHP_EOL);
-    fwrite($file, "<body>" . PHP_EOL);
-    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
-    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
-    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
-    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
-    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
-
-}
-
-function crearSHOWALL($tabla){
-    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWALL_View.php","w+");
-    fwrite($file, "<?php" . PHP_EOL);
-    fwrite($file, "class ". strtoupper($tabla) . "_SHOWALL {" . PHP_EOL);
-    fwrite($file, 'function __construct(){' . PHP_EOL);
-    fwrite($file, '$this->render();' . PHP_EOL);
-    fwrite($file, '}' . PHP_EOL);
-    fwrite($file, 'function render(){' . PHP_EOL);
-    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
-    fwrite($file, "?>" . PHP_EOL);
-    fwrite($file, "<title>Listar></title>" . PHP_EOL);
-    fwrite($file, "<body>" . PHP_EOL);
-    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
-    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
-    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
-    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
-    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
-
-}
-
-function crearSHOWCURRENT($tabla){
-    $file = fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWCURRENT_View.php","w+");
-    fwrite($file, "<?php" . PHP_EOL);
-    fwrite($file, "class ". strtoupper($tabla) . "_SHOWCURRENT{" . PHP_EOL);
-    fwrite($file, 'function __construct(){' . PHP_EOL);
-    fwrite($file, '$this->render();' . PHP_EOL);
-    fwrite($file, '}' . PHP_EOL);
-    fwrite($file, 'function render(){' . PHP_EOL);
-    fwrite($file, 'require_once(\'../header.php\'); ' . PHP_EOL);
-    fwrite($file, "?>" . PHP_EOL);
-    fwrite($file, "<title>Consultar></title>" . PHP_EOL);
-    fwrite($file, "<body>" . PHP_EOL);
-    fwrite($file, "<div class=\"row-fluid\">" . PHP_EOL);
-    fwrite($file, "<?php include_once('menu.php'); ?>" . PHP_EOL);
-    fwrite($file, "<div class=\"col-sm-10 text-left\">" . PHP_EOL);
-    fwrite($file, "<div class=\"section-fluid\">" . PHP_EOL);
-    fwrite($file, "<div class=\"container-fluid\">" . PHP_EOL);
-
-
-}
 
 function crearArrayFormulario($tabla){
     $file = fopen("/var/www/html/iujulio/Functions/" . strtoupper($tabla) . "_DefForm.php","w+");
-    fwrite($file, "<?php" . PHP_EOL);
-    fwrite($file, '$Form = array(' . PHP_EOL);
-    //Ahora aqui supongo que habrá que obtener los atributos de la tabla de la base de datos y meterlos en el array
-    $atributos = listarAtributos($tabla);
-    $i=0;
-    for($atributos as $atributo){
-        fwrite($file, " " . $i . "=> array(" . PHP_EOL);
-        fwrite($file, "'type' => '" . $i . "'," . PHP_EOL);
-    }
 
+        <?php
 
+        include 'gen_form_class.php';
+
+        $form = array(
+                array("action","procesaform.php"), //action, nombre fichero action
+                array("input","text","usergit","Usuario en git"),//etiqueta input, type, name, texto introducción
+                array("input","email","emailgit","Email del usuario git"),//etiqueta input, type, name, texto introducción
+                array("input","date","fechnacuser","Fecha nacimiento usuario"),//etiqueta input, type, name, texto introducción
+                array("input","text","grupopracticas","Grupo Prácticas"),//etiqueta input, type, name, texto introducción
+                array("input","text","nombreuser","Nombre del usuario"),//etiqueta input, type, name, texto introducción
+                array("input","text","apellidosuser","Apellidos del usuario"),//etiqueta input, type, name, texto introducción
+                array("input","text","cursoacademicouser","Curso académico mas alto"),//etiqueta input, type, name, texto introducción
+                array("input","text","titulacionuser","Titulación del usuario"),//etiqueta input, type, name, texto introducción
+                array("method","get"), //method, valor de method
+                array("input","submit","enviar") //etiqueta input, valor de type, value
+        );
+
+        $form5 = array(
+                 array("action","procesaform.php"), //action, nombre fichero action
+                 array("input","text","usergit","Usuario en git"),//etiqueta input, type, name, texto introducción
+                 array("input","email","emailgit","Email del usuario git"),//etiqueta input, type, name, texto introducción
+                 array("input","date","fechnacuser","Fecha nacimiento usuario"),//etiqueta input, type, name, texto introducción
+                 array("input","text","grupopracticas","Grupo Prácticas"),//etiqueta input, type, name, texto introducción
+                 array("input","text","nombreuser","Nombre del usuario"),//etiqueta input, type, name, texto introducción
+                 array("input","text","apellidosuser","Apellidos del usuario"),//etiqueta input, type, name, texto introducción
+                 array("input","number","cursoacademicouser","Curso académico mas alto"),//etiqueta input, type, name, texto introducción
+                 array("input","text","titulacionuser","Titulación del usuario"),//etiqueta input, type, name, texto introducción
+                 array("method","get"), //method, valor de method
+                 array("input","submit","enviar") //etiqueta input, valor de type, value
+        );
+
+        //new gen_form($form);
+        //echo '<br>';
+        new gen_form($form5);
+
+?>
 
 }
 
@@ -200,13 +134,11 @@ function listarAtributos($tabla){
     if (!($resultado = $mysqli2->query($sql))) {
         return 'Error en la consulta sobre la base de datos';
     } else {
-        $atributos = array();
-        while($atributo = $resultado->fetch_array(MYSQLI_ASSOC)){
+        $finfo = mysqli_fetch_fields($resultado);
 
-            array_push($atributos,$atributo);
-        }
 
-        return $atributos;
+        return $finfo;
     }
+
 }
 ?>
