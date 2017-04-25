@@ -181,7 +181,12 @@ function crearArrayFormulario($tabla){
     fwrite($file, "<?php" . PHP_EOL);
     fwrite($file, '$Form = array(' . PHP_EOL);
     //Ahora aqui supongo que habrá que obtener los atributos de la tabla de la base de datos y meterlos en el array
-    listarAtributos($tabla);
+    $atributos = listarAtributos($tabla);
+    $i=0;
+    for($atributos as $atributo){
+        fwrite($file, " " . $i . "=> array(" . PHP_EOL);
+        fwrite($file, "'type' => '" . $i . "'," . PHP_EOL);
+    }
 
 
 
@@ -200,6 +205,7 @@ function listarAtributos($tabla){
 
             array_push($atributos,$atributo);
         }
+
         return $atributos;
     }
 }
