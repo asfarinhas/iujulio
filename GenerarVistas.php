@@ -1,15 +1,14 @@
 <?php
     echo "Iniciando creación de vistas...";//Mostramos mensaje para saber cuando empieza
-
-
-
 function conectarBD(){//Creamos una funcion para conectarnos a la BD
+
     $bd = new mysqli("localhost", "root", "iu", "MOOVETT");
     if (mysqli_connect_errno()){
         echo "Fallo al conectar MySQL: " . $mysqli->connect_error();
     }
     return $bd;
 }
+
 
 function listarTablas() //Creamos una funcion para que nos devuelva todas las tablas de la BD
 {
@@ -24,7 +23,6 @@ function listarTablas() //Creamos una funcion para que nos devuelva todas las ta
         }
         return $tables;
     }
-
 }
 
 $arrayTablas = listarTablas();//Llamamos a la funcion listarTablas() para que nos devuelva todas las tablas. Le llamamos $arrayTablas
@@ -36,23 +34,15 @@ foreach($arrayTablas as $tabla){//Recorremos el array con las vistas
     crearDELETE($tabla);
     crearSHOWALL($tabla);
     crearSHOWCURRENT($tabla);
-
 }
 echo "Vistas creadas";
-
 function crearVistas($tabla){
-
-
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SEARCH_View.php","w+");
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_EDIT_View.php","w+");
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_DELETE_View.php","w+");
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWALL_View.php","w+");
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWCURRENT_View.php","w+");
-
-
-
 }
-
 function crearADD($tabla){
     $file=fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
     $str='<?php class'. strtoupper($tabla) . '_ADD { 
@@ -70,59 +60,39 @@ function crearADD($tabla){
 		<!-- Include del menú-->
 		<div class=\"row-fluid\">
 			<?php include_once(\'menu.php\'); ?>
-
 			<div class=\"col-sm-10 text-left\">
 				<div class=\"section-fluid\">
 					<div class=\"container-fluid\">
 					<form class=\"form-horizontal\" role=\"form\" action=\"../controllers/TRABAJADOR_Controller.php?id=altaTrabajador\"
 					 method=\"POST\" enctype=\"multipart/form-data\" >';
-
     fwrite($file,$str);
-
+    $atributo = listarAtributos($tabla);//Cogemos los atributos de la tabla y los pasamos a un array
+    crearArrayFormulario($tabla,$atributos);//Llamamos a la funcion crear el array del formulario, y le pasamos la tabla y los atributos
 }
 
-
-
-function crearArrayFormulario($tabla){
+function crearArrayFormulario($tabla, $atributos){
     $file = fopen("/var/www/html/iujulio/Functions/" . strtoupper($tabla) . "_DefForm.php","w+");
-
-        <?php
-
-        include 'gen_form_class.php';
-
+        $str = '
+        include \'gen_form_class.php\';
         $form = array(
-                array("action","procesaform.php"), //action, nombre fichero action
-                array("input","text","usergit","Usuario en git"),//etiqueta input, type, name, texto introducción
-                array("input","email","emailgit","Email del usuario git"),//etiqueta input, type, name, texto introducción
-                array("input","date","fechnacuser","Fecha nacimiento usuario"),//etiqueta input, type, name, texto introducción
-                array("input","text","grupopracticas","Grupo Prácticas"),//etiqueta input, type, name, texto introducción
-                array("input","text","nombreuser","Nombre del usuario"),//etiqueta input, type, name, texto introducción
-                array("input","text","apellidosuser","Apellidos del usuario"),//etiqueta input, type, name, texto introducción
-                array("input","text","cursoacademicouser","Curso académico mas alto"),//etiqueta input, type, name, texto introducción
-                array("input","text","titulacionuser","Titulación del usuario"),//etiqueta input, type, name, texto introducción
-                array("method","get"), //method, valor de method
+                array("action","'. $tabla. '"_CONTROLLER.php"), //action, nombre fichero action
+                ';
+
+                //Ahora lo que tenemos que hacer es concatenar lo siguiente, para que nos imprima la linea de cada atributo de la tabla.
+                foreach ($atributos as $clave => $valor) {
+                   $str += 'array("input","'. $atributos->type . '","'. $atributos->name . '","Usuario en git"),//etiqueta input, type, name, texto introducción';
+                }
+
+                $str += 'array("method","get"), //method, valor de method
                 array("input","submit","enviar") //etiqueta input, valor de type, value
         );
-
-        $form5 = array(
-                 array("action","procesaform.php"), //action, nombre fichero action
-                 array("input","text","usergit","Usuario en git"),//etiqueta input, type, name, texto introducción
-                 array("input","email","emailgit","Email del usuario git"),//etiqueta input, type, name, texto introducción
-                 array("input","date","fechnacuser","Fecha nacimiento usuario"),//etiqueta input, type, name, texto introducción
-                 array("input","text","grupopracticas","Grupo Prácticas"),//etiqueta input, type, name, texto introducción
-                 array("input","text","nombreuser","Nombre del usuario"),//etiqueta input, type, name, texto introducción
-                 array("input","text","apellidosuser","Apellidos del usuario"),//etiqueta input, type, name, texto introducción
-                 array("input","number","cursoacademicouser","Curso académico mas alto"),//etiqueta input, type, name, texto introducción
-                 array("input","text","titulacionuser","Titulación del usuario"),//etiqueta input, type, name, texto introducción
-                 array("method","get"), //method, valor de method
-                 array("input","submit","enviar") //etiqueta input, valor de type, value
-        );
-
         //new gen_form($form);
-        //echo '<br>';
-        new gen_form($form5);
+        //echo \'<br>\';
+        new gen_form($form);';
 
-?>
+            fwrite($file,$str);
+
+
 
 }
 
