@@ -8,13 +8,13 @@ if(!isset($_SESSION)){
 if(isset($_SESSION['grupo']) && strcmp($_SESSION['grupo'],"Admin") == 0 || strcmp($_SESSION['grupo'],'Secretario')==0){
 
     //Requires del modelo y las vistas.
-    require_once('../models/ESPACIO_Model.php');
+    require_once('../Models/ESPACIO_Model.php');
     require_once('../views/ESPACIO_EDIT_Vista.php');
     require_once('../views/ESPACIO_DELETE_Vista.php');
     require_once('../views/ESPACIO_ADD_Vista.php');
     require_once ('../views/ESPACIO_LIST_Vista.php');
     require_once('../views/RESERVAR_ADD_Vista.php');
-    require_once ('../models/RESERVA_Model.php');
+    require_once('../Models/RESERVA_Model.php');
     require_once ('../views/RESERVA_DELETE_Vista.php');
     require_once ('../views/RESERVA_LIST_Vista.php');
     require_once ('../views/RESERVA_EDIT_Vista.php');

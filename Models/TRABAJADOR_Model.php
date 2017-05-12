@@ -180,9 +180,9 @@ function verTrabajadores(){
 		while($row = $resultado->fetch_array()) {
 			if($row['DNI'] == null) $row['DNI'] = "-";
 			if($row['Tipo_Empleado'] == 'monitor'){
-				echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../controllers/TRABAJADOR_Controller.php?id=buscarTrabajadorListar&buscar=1&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Ver perfil</a></td><td> <a href='../controllers/LESION_Controller.php?id=verLesiones&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Ver Lesiones</a></td></tr>";
+				echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../Controllers/TRABAJADOR_Controller.php?id=buscarTrabajadorListar&buscar=1&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Ver perfil</a></td><td> <a href='../Controllers/LESION_Controller.php?id=verLesiones&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Ver Lesiones</a></td></tr>";
 			}else{
-			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../controllers/TRABAJADOR_Controller.php?id=buscarTrabajadorListar&buscar=1&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Ver perfil</a></td><td></td></tr>";
+			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../Controllers/TRABAJADOR_Controller.php?id=buscarTrabajadorListar&buscar=1&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Ver perfil</a></td><td></td></tr>";
 		}
 		}
 	}
@@ -199,9 +199,9 @@ function verTrabajadoresModificar(){
 		while($row = $resultado->fetch_array()) {
 			if($row['DNI'] == null) $row['DNI'] = "-";
 			if($row['Tipo_Empleado'] == 'monitor'){
-			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../controllers/TRABAJADOR_Controller.php?id=modificarTrabajador&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Modificar</a></td><td> <a href='../controllers/LESION_Controller.php?id=altaLesion&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Añadir Lesión</a></td> <td> <a href='../controllers/LESION_Controller.php?id=modificarLesion&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Modificar Lesión</a></td><td> <a href='../controllers/LESION_Controller.php?id=bajaLesion&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Borrar Lesión</a></td></tr>";
+			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../Controllers/TRABAJADOR_Controller.php?id=modificarTrabajador&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Modificar</a></td><td> <a href='../Controllers/LESION_Controller.php?id=altaLesion&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Añadir Lesión</a></td> <td> <a href='../Controllers/LESION_Controller.php?id=modificarLesion&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Modificar Lesión</a></td><td> <a href='../Controllers/LESION_Controller.php?id=bajaLesion&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Borrar Lesión</a></td></tr>";
 		}else{
-			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../controllers/TRABAJADOR_Controller.php?id=modificarTrabajador&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Modificar</a></td><td></td></tr>";
+			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../Controllers/TRABAJADOR_Controller.php?id=modificarTrabajador&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Modificar</a></td><td></td></tr>";
 		}
 		}
 	}
@@ -219,9 +219,9 @@ function verTrabajadoresBorrar(){
 		while($row = $resultado->fetch_array()) {
 			if($row['DNI'] == null) $row['DNI'] = "-";
 			if($row['Tipo_Empleado'] == 'monitor'){
-			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../controllers/TRABAJADOR_Controller.php?id=bajaTrabajador&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Borrar</a></td></tr>";
+			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../Controllers/TRABAJADOR_Controller.php?id=bajaTrabajador&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Borrar</a></td></tr>";
 		}else{
-			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../controllers/TRABAJADOR_Controller.php?id=bajaTrabajador&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Borrar</a></td></tr>";
+			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos'] . "</td> <td>".$row['Tipo_Empleado'] . "</td> <td> <a href='../Controllers/TRABAJADOR_Controller.php?id=bajaTrabajador&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Borrar</a></td></tr>";
 		}
 		}
 	}
@@ -239,7 +239,7 @@ function verTrabajadoresBorrados(){
 	if ($resultado->num_rows > 0){
 		while($row = $resultado->fetch_array()) {
 			if($row['DNI'] == null) $row['DNI'] = "-";
-			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos']. "</td> <td>".$row['Tipo_Empleado'] ."</td> <td> <a href='../controllers/TRABAJADOR_Controller.php?id=buscarTrabajadorListarBorrados&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Ver perfil</a></td></tr>";
+			echo "<tr> <td>".$row['DNI']."</td> <td>".$row['Nombre']."</td> <td>".$row['Apellidos']. "</td> <td>".$row['Tipo_Empleado'] ."</td> <td> <a href='../Controllers/TRABAJADOR_Controller.php?id=buscarTrabajadorListarBorrados&id2=" . $row['DNI'] . "'  class='btn btn-primary' >Ver perfil</a></td></tr>";
 		}
 	}
 }

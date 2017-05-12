@@ -8,7 +8,7 @@ if(!isset($_SESSION)){
 if(isset($_SESSION['grupo']) && strcmp($_SESSION['grupo'],"Admin") == 0 ){ 
 	
 	//Requires del modelo, otros controladores y las vistas.
-	require_once('../models/TRABAJADOR_Model.php'); 
+	require_once('../Models/TRABAJADOR_Model.php'); 
 	require_once('../views/TRABAJADOR_ADD_Vista.php');
 	require_once('../views/TRABAJADOR_ADD_CONFIRMAR_Vista.php');
 	require_once('../views/TRABAJADOR_DELETE_Vista.php');

@@ -8,7 +8,7 @@ if(!isset($_SESSION)){
 if(isset($_SESSION['grupo']) && (strcmp($_SESSION['grupo'],"Admin") == 0 OR strcmp($_SESSION['grupo'],"Secretario") == 0) ){
 
 	//Requires del modelo, otros controladores y las vistas.
-	require_once('../models/RESERVAEVENTO_Model.php');
+	require_once('../Models/RESERVAEVENTO_Model.php');
 	require_once('../views/RESERVAEVENTO_ADD_Vista.php');
 	require_once('../views/RESERVAEVENTO_DELETE_Vista.php');
 	require_once('../views/RESERVAEVENTO_EDIT_Vista.php');

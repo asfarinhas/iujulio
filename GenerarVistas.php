@@ -2,7 +2,7 @@
     echo "Iniciando creación de vistas...";//Mostramos mensaje para saber cuando empieza
 function conectarBD(){//Creamos una funcion para conectarnos a la BD
 
-    $bd = new mysqli("localhost", "root", "iu", "MOOVETT");
+    $bd = new mysqli("localhost", "iu2016", "iu2016", "IU2016");
     if (mysqli_connect_errno()){
         echo "Fallo al conectar MySQL: " . $mysqli->connect_error();
     }
@@ -13,13 +13,13 @@ function conectarBD(){//Creamos una funcion para conectarnos a la BD
 function listarTablas() //Creamos una funcion para que nos devuelva todas las tablas de la BD
 {
     $mysqli2 = conectarBD();
-    $sql = 'show full tables from MOOVETT';
+    $sql = 'show full tables from IU2016';
     if (!($resultado = $mysqli2->query($sql))) {
         return 'Error en la consulta sobre la base de datos';
     } else {
         $tables = array();
         while($tabla = $resultado->fetch_array(MYSQLI_ASSOC)){
-            array_push($tables,$tabla['Tables_in_MOOVETT']);
+            array_push($tables,$tabla['Tables_in_IU2016']);
         }
         return $tables;
     }
@@ -44,41 +44,55 @@ function crearVistas($tabla){
     fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWCURRENT_View.php","w+");
 }
 function crearADD($tabla){
-    $file=fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_ADD_View.php","w+");
+    $file=fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_ADD_Vista.php","w+");
     $atributos = listarAtributos($tabla);//Cogemos los atributos de la tabla y los pasamos a un array
-    $str='<?php class'. strtoupper($tabla) . '_ADD { 
+    var_dump($atributos);
+   // exit;
+    $str='<?php class '. strtoupper($tabla) . '_ADD { 
           function __construct(){ 
                 $this->render();
                 }
           function render(){ 
-    require_once(\'../header.php\'); 
-    $lista = array(' . 
-       while($atributos){ 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-
-                                //POR AHORA ESTOY AQUÍ
-
-        //////////////////////////////////////////////////////////////////////////////////////////////
-                '\'$atributos->name\',';
-        } 
-    .''ACTIVIDAD_NOMBRE','CATEGORIA_NOMBRE','ACTIVIDAD_HORARIO','ACTIVIDAD_DIA');
-?>
-    
+    include \'../Functions/' . strtoupper($tabla) . '_DefForm.php\';
+    $lista = array(';
+        $i=0;
+       foreach($atributos as $valor){
+           if($i==0){
+               $str .= '\'' . $valor->name.'\'';
+           }else{
+               $str .= ',\'' . $valor->name. '\'';
+           }
+           $i++;
+        }
+    $str .= ');
+    ?>
     <title>Añadir></title>
     <body>
-    <div class=\"row-fluid\">
+    <div class="row-fluid">
     <body>
 		<!-- Include del menú-->
-		<div class=\"row-fluid\">
-			<?php include_once(\'menu.php\'); ?>
-			<div class=\"col-sm-10 text-left\">
-				<div class=\"section-fluid\">
-					<div class=\"container-fluid\">
-					<form class=\"form-horizontal\" role=\"form\" action=\"../controllers/TRABAJADOR_Controller.php?id=altaTrabajador\"
-					 method=\"POST\" enctype=\"multipart/form-data\" >
+		<div class="row-fluid">
+			<div class="col-sm-10 text-left">
+				<div class="section-fluid">
+					<div class="container-fluid">
+					<form class="form-horizontal" role="form" action="../Controllers/' . strtoupper($tabla) . '_Controller.php?id=altaTrabajador"
+					 method="POST" enctype="multipart/form-data" >
                      <ul class="form-style-1">
                     <?php
-                    createForm($lista,$DefForm,$strings,'',true,false);
+                    createForm($lista,$DefForm,$strings,\'\',true,false);
+?>
+                    <input type="submit" name="accion" onclick="return valida_envia4()" value="Continuar">
+				            </form>
+				<br>
+
+			</h3>
+		</p>
+
+	</div>
+
+<?php
+} //fin metodo render
+}
 ?>';
     fwrite($file,$str);
     
@@ -94,11 +108,12 @@ function crearArrayFormulario($tabla, $atributos){
                 ';
 
                 //Ahora lo que tenemos que hacer es concatenar lo siguiente, para que nos imprima la linea de cada atributo de la tabla.
-                foreach ($atributos as $clave => $valor) {
-                   $str += 'array("input","'. $atributos->type . '","'. $atributos->name . '","Usuario en git"),//etiqueta input, type, name, texto introducción';
+                foreach ($atributos as $clave) {
+                   $str .= 'array("input","'. $clave->type . '","'. $clave->name . '","Usuario en git"),
+                   ';
                 }
 
-                $str += 'array("method","get"), //method, valor de method
+                $str .= 'array("method","get"), //method, valor de method
                 array("input","submit","enviar") //etiqueta input, valor de type, value
         );
         //new gen_form($form);

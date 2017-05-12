@@ -8,7 +8,7 @@ if(!isset($_SESSION)){
 if(isset($_SESSION['grupo']) && strcmp($_SESSION['grupo'],"Admin") == 0 ){ 
 	
 	//Requires del modelo y las vistas.
-	require_once('../models/GRUPO_Model.php'); 
+	require_once('../Models/GRUPO_Model.php'); 
 
 	require_once('../views/GRUPO_ADD_Vista.php'); 
 	require_once('../views/GRUPO_DELETE_Vista.php'); 

@@ -8,7 +8,7 @@ if(!isset($_SESSION)){
 if(isset($_SESSION['grupo']) && (strcmp($_SESSION['grupo'],"Admin") == 0 || strcmp($_SESSION['grupo'],"Secretario") == 0) ){ 
 	
 	//Requires del modelo, otros controladores y las vistas.
-	include('../models/ALUMNO_Model.php'); 
+	include('../Models/ALUMNO_Model.php'); 
 	
 	require_once('../views/ALUMNO_ADD_Vista.php');
 	require_once('../views/ALUMNO_DELETE_Vista.php');
