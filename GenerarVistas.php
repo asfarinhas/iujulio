@@ -53,8 +53,9 @@ function crearADD($tabla){
                 $this->render();
                 }
           function render(){ 
-    include \'../Functions/' . strtoupper($tabla) . '_DefForm.php\';
-    $lista = array(';
+    include \'../Locates/Strings_\'.$_SESSION[\'IDIOMA\'].\'.php\';           
+        include \'../Functions/' . strtoupper($tabla) . '_DefForm.php\';
+        $lista = array(';
         $i=0;
        foreach($atributos as $valor){
            if($i==0){
@@ -67,22 +68,25 @@ function crearADD($tabla){
     $str .= ');
     ?>
     <title>Añadir></title>
-    <body>
-    <div class="row-fluid">
-    <body>
-		<!-- Include del menú-->
-		<div class="row-fluid">
-			<div class="col-sm-10 text-left">
-				<div class="section-fluid">
-					<div class="container-fluid">
-					<form class="form-horizontal" role="form" action="../Controllers/' . strtoupper($tabla) . '_Controller.php?id=altaTrabajador"
+    	</h2>
+		</p>
+		<p>
+			<h1>
+			<span class="form-title">
+			<?php echo	$strings[\'Insertar Actividad\'] ?><br>
+			</h1>
+            <h3>
+					<form id="form" action="../Controllers/' . strtoupper($tabla) . '_Controller.php?"
 					 method="POST" enctype="multipart/form-data" >
                      <ul class="form-style-1">
                     <?php
                     createForm($lista,$DefForm,$strings,\'\',true,false);
 ?>
                     <input type="submit" name="accion" onclick="return valida_envia4()" value="Continuar">
-				            </form>
+				    </form>
+				    <?php
+				echo \'<a class="form-link" href=\"../Controllers/' . strtoupper($tabla) . '_Controller.php'.'\\\'>\' . $strings[\'Volver\'] . " </a>";
+				?>
 				<br>
 
 			</h3>
@@ -102,28 +106,81 @@ function crearADD($tabla){
 function crearArrayFormulario($tabla, $atributos){
     $file = fopen("/var/www/html/iujulio/Functions/" . strtoupper($tabla) . "_DefForm.php","w+");
         $str = '
-        include \'gen_form_class.php\';
-        $form = array(
-                array("action","'. $tabla. '"_CONTROLLER.php"), //action, nombre fichero action
-                ';
-
-                //Ahora lo que tenemos que hacer es concatenar lo siguiente, para que nos imprima la linea de cada atributo de la tabla.
-                foreach ($atributos as $clave) {
-                   $str .= 'array("input","'. $clave->type . '","'. $clave->name . '","Usuario en git"),
-                   ';
+        <?php
+        //Formulario para cada vista.
+        $Form = array(' ;
+        $i=0;
+            foreach ($atributos as $clave) {
+                if($i==0) {
+                    $str .='
+                   '.$i . '=>array(
+                   \'name\' => \'' . $clave->name . '\',
+                   \'type\' => \'' . calcularType($clave->type) . '\',';
+                  /* \'value\' => \'' . $clave->value . '\',
+                   \'min\' => \'' . $clave->min . '\',
+                   \'max\' => \'' . $clave->max . '\',
+                   \'size\' => \'' . $clave->size . '\',
+                   \'required\' => \'' . $clave->required . '\',
+                   \'pattern\' => \'' . $clave->pattern . '\',
+                   \'validation\' => \'' . $clave->validation . '\',
+                   \'readonly\' => \'' . $clave->readonly . '\'  */
+                   $str.= '
+                   )';
+                }else{
+                    $str .=',
+                   '.$i.'=>array(
+                   \'name\' => \'' . $clave->name . '\',
+                   \'type\' => \'' . calcularType($clave->type) . '\',';
+                   /* \'value\' => \'' . $clave->value . '\',
+                   \'min\' => \'' . $clave->min . '\',
+                   \'max\' => \'' . $clave->max . '\',
+                   \'size\' => \'' . $clave->size . '\',
+                   \'required\' => \'' . $clave->required . '\',
+                   \'pattern\' => \'' . $clave->pattern . '\',
+                   \'validation\' => \'' . $clave->validation . '\',
+                   \'readonly\' => \'' . $clave->readonly . '\'*/
+                   $str.= '
+                   )';
                 }
+                   $i++;
+                }
+                $str.='
+                );';
 
-                $str .= 'array("method","get"), //method, valor de method
-                array("input","submit","enviar") //etiqueta input, valor de type, value
-        );
-        //new gen_form($form);
-        //echo \'<br>\';
-        new gen_form($form);';
 
             fwrite($file,$str);
 
 
 
+}
+
+function calcularType($tipo){
+    switch ($tipo){
+        case 16:
+            $toret='BIT';
+            break;
+        case 1:
+            $toret='BOOL';
+            break;
+        case 253:
+            $toret='VARCHAR';
+            break;
+        case 246:
+            $toret='DECIMAL';
+            break;
+        case 3:
+            $toret='INTEGER';
+            break;
+        case 10:
+            $toret='DATE';
+            break;
+        case 252:
+            $toret='TEXT';
+            break;
+        default:
+            echo "Rodeiro no nos putes MÁS anda!!";
+    }
+    return $toret;
 }
 
 
