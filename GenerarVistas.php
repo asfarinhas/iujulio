@@ -37,14 +37,14 @@ foreach($arrayTablas as $tabla){//Recorremos el array con las vistas
 }
 echo "Vistas creadas";
 function crearVistas($tabla){
-    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SEARCH_View.php","w+");
-    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_EDIT_View.php","w+");
-    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_DELETE_View.php","w+");
-    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWALL_View.php","w+");
-    fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWCURRENT_View.php","w+");
+    //fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SEARCH_View.php","w+");
+    //fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_EDIT_View.php","w+");
+    //fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_DELETE_View.php","w+");
+    //fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWALL_View.php","w+");
+    //fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_SHOWCURRENT_View.php","w+");
 }
 function crearADD($tabla){
-    $file=fopen("/var/www/html/iujulio/Views/" . strtoupper($tabla) . "_ADD_Vista.php","w+");
+    $file=fopen("/var/www/html/iujulio/IUjulio/Views/" . strtoupper($tabla) . "_ADD_Vista.php","w+");
     $atributos = listarAtributos($tabla);//Cogemos los atributos de la tabla y los pasamos a un array
     var_dump($atributos);
    // exit;
@@ -66,13 +66,13 @@ function crearADD($tabla){
            $i++;
         }
     $str .= ');
-    ?>
-    <title>Añadir></title>
+?>
+ <title>Añadir</title>
     	</h2>
 		</p>
 		<p>
 			<h1>
-			<span class="form-title">
+			<span class=\"form-title\">
 			<?php echo	$strings[\'Insertar Actividad\'] ?><br>
 			</h1>
             <h3>
@@ -84,9 +84,9 @@ function crearADD($tabla){
 ?>
                     <input type="submit" name="accion" onclick="return valida_envia4()" value="Continuar">
 				    </form>
-				    <?php
+<?php
 				echo \'<a class="form-link" href=\"../Controllers/' . strtoupper($tabla) . '_Controller.php'.'\\\'>\' . $strings[\'Volver\'] . " </a>";
-				?>
+?>
 				<br>
 
 			</h3>
@@ -98,13 +98,14 @@ function crearADD($tabla){
 } //fin metodo render
 }
 ?>';
+    echo "********************************" . $file;
     fwrite($file,$str);
     
     crearArrayFormulario($tabla,$atributos);//Llamamos a la funcion crear el array del formulario, y le pasamos la tabla y los atributos
 }
 
 function crearArrayFormulario($tabla, $atributos){
-    $file = fopen("/var/www/html/iujulio/Functions/" . strtoupper($tabla) . "_DefForm.php","w+");
+    $file = fopen("/var/www/html/iujulio/IUjulio/Functions/" . strtoupper($tabla) . "_DefForm.php","w+");
         $str = '
         <?php
         //Formulario para cada vista.
@@ -115,7 +116,7 @@ function crearArrayFormulario($tabla, $atributos){
                     $str .='
                    '.$i . '=>array(
                    \'name\' => \'' . $clave->name . '\',
-                   \'type\' => \'' . calcularType($clave->type) . '\',';
+                   \'type\' => \'' . $clave['type']. '\',';
                   /* \'value\' => \'' . $clave->value . '\',
                    \'min\' => \'' . $clave->min . '\',
                    \'max\' => \'' . $clave->max . '\',
@@ -157,25 +158,25 @@ function crearArrayFormulario($tabla, $atributos){
 function calcularType($tipo){
     switch ($tipo){
         case 16:
-            $toret='BIT';
+            $toret='bit';
             break;
         case 1:
-            $toret='BOOL';
+            $toret='tinyint';
             break;
         case 253:
-            $toret='VARCHAR';
+            $toret='varchar';
             break;
         case 246:
-            $toret='DECIMAL';
+            $toret='decimal';
             break;
         case 3:
-            $toret='INTEGER';
+            $toret='int';
             break;
         case 10:
-            $toret='DATE';
+            $toret='date';
             break;
         case 252:
-            $toret='TEXT';
+            $toret='text';
             break;
         default:
             echo "Rodeiro no nos putes MÁS anda!!";

@@ -1,1 +1,0 @@
-chown www-data:www-data /var/www/html/images/ -R; chown www-data:www-data /var/www/html/facturas/ -R; chown www-data:www-data /var/www/html/logs/ -R

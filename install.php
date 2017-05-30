@@ -9,7 +9,7 @@
 <body>
 <p> [ Introduzca el Usuario y Contraseña root de la base de datos ] </p>
 
-<form action="install_finish.php" method="post">
+<form action="./IUjulio/install_finish.php" method="post">
 
     <p>Usuario <input type="text" name="usuario"></p>
     <p>Contraseña <input type="password" name="password"></p>
